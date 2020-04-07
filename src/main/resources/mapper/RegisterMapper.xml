@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blue.hospital.dao.RegisterMapper">
+  <resultMap id="BaseResultMap" type="com.blue.hospital.entity.Register">
+    <id column="registerId" jdbcType="INTEGER" property="registerid" />
+    <result column="register_patient" jdbcType="INTEGER" property="registerPatient" />
+    <result column="register_department" jdbcType="INTEGER" property="registerDepartment" />
+    <result column="register_doctor" jdbcType="INTEGER" property="registerDoctor" />
+    <result column="register_date" jdbcType="TIMESTAMP" property="registerDate" />
+  </resultMap>
+  <resultMap id="BaseResultMap1" type="com.blue.hospital.entity.Register">
+    <id column="registerId" jdbcType="INTEGER" property="registerid" />
+    <result column="register_patient" jdbcType="INTEGER" property="registerPatient" />
+    <result column="register_department" jdbcType="INTEGER" property="registerDepartment" />
+    <result column="register_doctor" jdbcType="INTEGER" property="registerDoctor" />
+    <result column="register_date" jdbcType="TIMESTAMP" property="registerDate" />
+    <association property="patient" javaType="com.blue.hospital.entity.Patient">
+      <id column="patientId" jdbcType="INTEGER" property="patientid" />
+      <result column="name" jdbcType="VARCHAR" property="name" />
+      <result column="sex" jdbcType="VARCHAR" property="sex" />
+      <result column="birthday" jdbcType="VARCHAR" property="birthday" />
+      <result column="age" jdbcType="INTEGER" property="age" />
+      <result column="marrage" jdbcType="VARCHAR" property="marrage" />
+      <result column="birthPlace" jdbcType="VARCHAR" property="birthplace" />
+      <result column="nation" jdbcType="VARCHAR" property="nation" />
+      <result column="patientCard" jdbcType="VARCHAR" property="patientcard" />
+      <result column="address" jdbcType="VARCHAR" property="address" />
+      <result column="telephone" jdbcType="VARCHAR" property="telephone" />
+      <result column="contactsName" jdbcType="VARCHAR" property="contactsname" />
+      <result column="contactsRelationship" jdbcType="VARCHAR" property="contactsrelationship" />
+      <result column="contactsNum" jdbcType="VARCHAR" property="contactsnum" />
+      <result column="isDelete" jdbcType="INTEGER" property="isdelete" />
+    </association>
+    <association property="doctor" javaType="com.blue.hospital.entity.User">
+      <id column="userId" jdbcType="INTEGER" property="userid" />
+      <result column="userName" jdbcType="VARCHAR" property="username" />
+      <result column="userPwd" jdbcType="VARCHAR" property="userpwd" />
+      <result column="salt" jdbcType="VARCHAR" property="salt" />
+      <result column="userSex" jdbcType="VARCHAR" property="usersex" />
+      <result column="userPhoto" jdbcType="VARCHAR" property="userphoto" />
+      <result column="userCard" jdbcType="VARCHAR" property="usercard" />
+      <result column="birthday" jdbcType="VARCHAR" property="birthday" />
+      <result column="postId" jdbcType="INTEGER" property="postid" />
+      <result column="state" jdbcType="INTEGER" property="state" />
+      <result column="icuId" jdbcType="INTEGER" property="icuid" />
+      <result column="descc" jdbcType="VARCHAR" property="descc" />
+    </association>
+    <association property="department" javaType="com.blue.hospital.entity.Department">
+      <id column="departmentId" jdbcType="INTEGER" property="departmentid" />
+      <result column="departmentName" jdbcType="VARCHAR" property="departmentname" />
+      <result column="departmentAddress" jdbcType="VARCHAR" property="departmentaddress" />
+      <result column="departmentTelephone" jdbcType="VARCHAR" property="departmenttelephone" />
+      <result column="userid" jdbcType="INTEGER" property="userid" />
+      <result column="isDelete" jdbcType="INTEGER" property="isdelete" />
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List">
+    registerId, register_patient, register_department, register_doctor, register_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from register
+    where registerId = #{registerid,jdbcType=INTEGER}
+  </select>
+
+  <select id="getAllRegister" resultMap="BaseResultMap1">
+    select * from register re ,patient p, user u ,department d
+    where re.register_patient = p.patientId and re.register_doctor = u.userId and re.register_department = d.departmentId
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from register
+    where registerId = #{registerid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.blue.hospital.entity.Register">
+    insert into register (registerId, register_patient, register_department, 
+      register_doctor, register_date)
+    values (#{registerid,jdbcType=INTEGER}, #{registerPatient,jdbcType=INTEGER}, #{registerDepartment,jdbcType=INTEGER}, 
+      #{registerDoctor,jdbcType=INTEGER}, #{registerDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.blue.hospital.entity.Register">
+    insert into register
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="registerid != null">
+        registerId,
+      </if>
+      <if test="registerPatient != null">
+        register_patient,
+      </if>
+      <if test="registerDepartment != null">
+        register_department,
+      </if>
+      <if test="registerDoctor != null">
+        register_doctor,
+      </if>
+      <if test="registerDate != null">
+        register_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="registerid != null">
+        #{registerid,jdbcType=INTEGER},
+      </if>
+      <if test="registerPatient != null">
+        #{registerPatient,jdbcType=INTEGER},
+      </if>
+      <if test="registerDepartment != null">
+        #{registerDepartment,jdbcType=INTEGER},
+      </if>
+      <if test="registerDoctor != null">
+        #{registerDoctor,jdbcType=INTEGER},
+      </if>
+      <if test="registerDate != null">
+        #{registerDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.blue.hospital.entity.Register">
+    update register
+    <set>
+      <if test="registerPatient != null">
+        register_patient = #{registerPatient,jdbcType=INTEGER},
+      </if>
+      <if test="registerDepartment != null">
+        register_department = #{registerDepartment,jdbcType=INTEGER},
+      </if>
+      <if test="registerDoctor != null">
+        register_doctor = #{registerDoctor,jdbcType=INTEGER},
+      </if>
+      <if test="registerDate != null">
+        register_date = #{registerDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where registerId = #{registerid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.blue.hospital.entity.Register">
+    update register
+    set register_patient = #{registerPatient,jdbcType=INTEGER},
+      register_department = #{registerDepartment,jdbcType=INTEGER},
+      register_doctor = #{registerDoctor,jdbcType=INTEGER},
+      register_date = #{registerDate,jdbcType=TIMESTAMP}
+    where registerId = #{registerid,jdbcType=INTEGER}
+  </update>
+</mapper>

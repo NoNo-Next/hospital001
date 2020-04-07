@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blue.hospital.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.blue.hospital.entity.User">
+    <id column="userId" jdbcType="INTEGER" property="userid" />
+    <result column="userName" jdbcType="VARCHAR" property="username" />
+    <result column="userPwd" jdbcType="VARCHAR" property="userpwd" />
+    <result column="salt" jdbcType="VARCHAR" property="salt" />
+    <result column="userSex" jdbcType="VARCHAR" property="usersex" />
+    <result column="userPhoto" jdbcType="VARCHAR" property="userphoto" />
+    <result column="userCard" jdbcType="VARCHAR" property="usercard" />
+    <result column="birthday" jdbcType="VARCHAR" property="birthday" />
+    <result column="postId" jdbcType="INTEGER" property="postid" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="icuId" jdbcType="INTEGER" property="icuid" />
+    <result column="descc" jdbcType="VARCHAR" property="descc" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    userId, userName, userPwd, userSex, userPhoto, userCard, birthday, postId, state, 
+    icuId, descc
+  </sql>
+  <select id="selectByExample" parameterType="com.blue.hospital.entity.UserExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+
+    <select id="findUserByName" resultType="com.blue.hospital.entity.User" parameterType="String">
+        select * from user where userName = "${userName}"
+    </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where userId = #{userid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user
+    where userId = #{userid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.blue.hospital.entity.UserExample">
+    delete from user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  
+  <insert id="insert" parameterType="com.blue.hospital.entity.User" useGeneratedKeys="true" keyProperty="userid">
+    insert into user (userId, userName, userPwd, salt,
+      userSex, userPhoto, userCard, 
+      birthday, postId, state, 
+      icuId, descc,departmentId)
+    values (#{userid,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{userpwd,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR},
+      #{usersex,jdbcType=VARCHAR}, #{userphoto,jdbcType=VARCHAR}, #{usercard,jdbcType=VARCHAR}, 
+      #{birthday,jdbcType=VARCHAR}, #{postid,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, 
+      #{icuid,jdbcType=INTEGER}, #{descc,jdbcType=VARCHAR}, #{departmentId,jdbcType=VARCHAR})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.blue.hospital.entity.User">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userid != null">
+        userId,
+      </if>
+      <if test="username != null">
+        userName,
+      </if>
+      <if test="userpwd != null">
+        userPwd,
+      </if>
+      <if test="usersex != null">
+        userSex,
+      </if>
+      <if test="userphoto != null">
+        userPhoto,
+      </if>
+      <if test="usercard != null">
+        userCard,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+      <if test="postid != null">
+        postId,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="icuid != null">
+        icuId,
+      </if>
+      <if test="descc != null">
+        descc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="userpwd != null">
+        #{userpwd,jdbcType=VARCHAR},
+      </if>
+      <if test="usersex != null">
+        #{usersex,jdbcType=VARCHAR},
+      </if>
+      <if test="userphoto != null">
+        #{userphoto,jdbcType=VARCHAR},
+      </if>
+      <if test="usercard != null">
+        #{usercard,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="postid != null">
+        #{postid,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="icuid != null">
+        #{icuid,jdbcType=INTEGER},
+      </if>
+      <if test="descc != null">
+        #{descc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.blue.hospital.entity.UserExample" resultType="java.lang.Long">
+    select count(*) from user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+
+    <select id="findUserById" resultMap="userResultMap" parameterType="Integer">
+        select * from user u,position p,department d
+     where  u.userId = #{userid} AND u.postId=p.postNumber and u.departmentId=d.departmentId
+    </select>
+
+  <update id="updateByExampleSelective" parameterType="map">
+    update user
+    <set>
+      <if test="record.userid != null">
+        userId = #{record.userid,jdbcType=INTEGER},
+      </if>
+      <if test="record.username != null">
+        userName = #{record.username,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userpwd != null">
+        userPwd = #{record.userpwd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.usersex != null">
+        userSex = #{record.usersex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userphoto != null">
+        userPhoto = #{record.userphoto,jdbcType=VARCHAR},
+      </if>
+      <if test="record.usercard != null">
+        userCard = #{record.usercard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.birthday != null">
+        birthday = #{record.birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postid != null">
+        postId = #{record.postid,jdbcType=INTEGER},
+      </if>
+      <if test="record.state != null">
+        state = #{record.state,jdbcType=INTEGER},
+      </if>
+      <if test="record.icuid != null">
+        icuId = #{record.icuid,jdbcType=INTEGER},
+      </if>
+      <if test="record.descc != null">
+        descc = #{record.descc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update user
+    set userId = #{record.userid,jdbcType=INTEGER},
+      userName = #{record.username,jdbcType=VARCHAR},
+      userPwd = #{record.userpwd,jdbcType=VARCHAR},
+      userSex = #{record.usersex,jdbcType=VARCHAR},
+      userPhoto = #{record.userphoto,jdbcType=VARCHAR},
+      userCard = #{record.usercard,jdbcType=VARCHAR},
+      birthday = #{record.birthday,jdbcType=VARCHAR},
+      postId = #{record.postid,jdbcType=INTEGER},
+      state = #{record.state,jdbcType=INTEGER},
+      icuId = #{record.icuid,jdbcType=INTEGER},
+      descc = #{record.descc,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.blue.hospital.entity.User">
+    update user
+    <set>
+      <if test="username != null">
+        userName = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="userpwd != null">
+        userPwd = #{userpwd,jdbcType=VARCHAR},
+      </if>
+        <if test="salt != null">
+            salt = #{salt,jdbcType=VARCHAR},
+        </if>
+      <if test="usersex != null">
+        userSex = #{usersex,jdbcType=VARCHAR},
+      </if>
+      <if test="userphoto != null">
+        userPhoto = #{userphoto,jdbcType=VARCHAR},
+      </if>
+      <if test="usercard != null">
+        userCard = #{usercard,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="postid != null">
+        postId = #{postid,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="icuid != null">
+        icuId = #{icuid,jdbcType=INTEGER},
+      </if>
+      <if test="descc != null">
+        descc = #{descc,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentId != null">
+        departmentId = #{departmentId,jdbcType=VARCHAR},
+      </if>
+
+    </set>
+    where userId = #{userid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.blue.hospital.entity.User">
+    update user
+    set userName = #{username,jdbcType=VARCHAR},
+      userPwd = #{userpwd,jdbcType=VARCHAR},
+      salt = #{salt,jdbcType=VARCHAR},
+      userSex = #{usersex,jdbcType=VARCHAR},
+      userPhoto = #{userphoto,jdbcType=VARCHAR},
+      userCard = #{usercard,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=VARCHAR},
+      postId = #{postid,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER},
+      icuId = #{icuid,jdbcType=INTEGER},
+      descc = #{descc,jdbcType=VARCHAR}
+    where userId = #{userid,jdbcType=INTEGER}
+  </update>
+
+    <!-- 自定义resultMap用于一对多查询 -->
+	<resultMap id="MyResultMap" type="com.blue.hospital.pojo.UserAndPartment">
+		<id column="userId" property="userid" jdbcType="INTEGER" />
+		<result column="userName" property="username"
+			jdbcType="VARCHAR" />
+		<result column="userPwd" property="userpwd"
+			jdbcType="VARCHAR" />
+		<result column="userName" property="username"
+			jdbcType="VARCHAR" />
+		<result column="usersex" property="usersex"
+			jdbcType="VARCHAR" />
+		<result column="userPhoto" property="userphoto"
+			jdbcType="VARCHAR" />
+		<result column="userCard" property="usercard"
+			jdbcType="VARCHAR" />
+		<result column="birthday" property="birthday"
+			jdbcType="VARCHAR" />
+		<result column="postId" property="postid"
+			jdbcType="VARCHAR" />
+		<result column="state" property="state"
+			jdbcType="VARCHAR" />
+		<result column="icuId" property="icuid"
+			jdbcType="VARCHAR" />
+		<result column="descc" property="descc"
+			jdbcType="VARCHAR" />
+		<result column="departmentId" property="departmentid"
+			jdbcType="VARCHAR" />
+		<result column="departmentName" property="departmentname"
+			jdbcType="VARCHAR" />
+		<result column="departmentAddress" property="departmentaddress"
+			jdbcType="VARCHAR" />
+		<result column="departmentTelephone" property="departmenttelephone"
+			jdbcType="VARCHAR" />
+		<result column="idDelete" property="delete"
+			jdbcType="VARCHAR" />
+	</resultMap>
+  
+  <!-- 添加一对一查询 -->
+	<select id="selectByUserId" parameterType="int" resultMap="MyResultMap">
+		select
+			user.userId, 
+			user.userName,
+			user.userPwd,
+			user.userSex,
+			user.userCard,
+			user.birthday,
+			user.state,
+			user.icuId,
+			user.descc,
+			department.departmentId,
+			department.departmentName,
+			department.departmentAddress,
+			department.departmentTelephone,
+			department.isDelete
+		from 
+			user,department
+		where
+			user.userId = department.userid
+		and 
+			user.userId=#{id}
+	</select>
+	
+  <!-- 自定义结果集 -->
+  <resultMap type="com.blue.hospital.entity.User" id="userResultMap">
+       <id column="userId" jdbcType="INTEGER" property="userid" />
+	   <result column="userName" jdbcType="VARCHAR" property="username" />
+	   <result column="userPwd" jdbcType="VARCHAR" property="userpwd" />
+	   <result column="userSex" jdbcType="VARCHAR" property="usersex" />
+	   <result column="userPhoto" jdbcType="VARCHAR" property="userphoto" />
+	   <result column="userCard" jdbcType="VARCHAR" property="usercard" />
+	   <result column="birthday" jdbcType="VARCHAR" property="birthday" />
+	   <result column="postId" jdbcType="INTEGER" property="postid" />
+	   <result column="state" jdbcType="INTEGER" property="state" />
+	   <result column="icuId" jdbcType="INTEGER" property="icuid" />
+	   <result column="descc" jdbcType="VARCHAR" property="descc" />
+	   <result column="departmentId" jdbcType="VARCHAR" property="departmentId" />
+
+	    <!-- 用户 - - 角色 多对一 association    一对多:collection
+	    column:列名（数据库表，sql查询）       property:属性名字-->
+	    <association property="position" javaType="com.blue.hospital.entity.Position">
+	       <id column="postNumber" jdbcType="INTEGER" property="postnumber" />
+	        <result column="postName" jdbcType="VARCHAR" property="postname" />
+    		<result column="postSalary" jdbcType="INTEGER" property="postsalary" />
+	    </association>
+
+      <!--用户 - - 部门 多对一 -->
+      <association property="department" javaType="com.blue.hospital.entity.Department">
+          <id column="departmentId" jdbcType="INTEGER" property="departmentid" />
+          <result column="departmentName" jdbcType="VARCHAR" property="departmentname" />
+          <result column="departmentAddress" jdbcType="VARCHAR" property="departmentaddress" />
+          <result column="departmentTelephone" jdbcType="VARCHAR" property="departmenttelephone" />
+          <result column="userid" jdbcType="INTEGER" property="userid" />
+          <result column="isDelete" jdbcType="VARCHAR" property="isdelete" />
+      </association>
+  </resultMap>
+  
+  <!--关联查询  -->
+  <select id="queryAll"  resultMap="userResultMap">
+    select * from user u,position p,department d
+     where u.postId=p.postNumber  and u.departmentId=d.departmentId
+     <if test="username != null">
+       and u.username like concat('%',concat(#{username},'%'));
+     </if>
+  </select>
+	 
+</mapper>

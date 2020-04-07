@@ -1,0 +1,23 @@
+13:43:23.329 [main] INFO  com.blue.hospital.HospitalApp - Starting HospitalApp on NaNa with PID 5628 (F:\java\hospital\hospital\target\classes started by Blue in F:\java\hospital\hospital)
+13:43:23.339 [main] INFO  com.blue.hospital.HospitalApp - No active profile set, falling back to default profiles: default
+13:43:26.082 [main] INFO  com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure - Init DruidDataSource
+13:43:26.304 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+13:43:27.496 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8888"]
+13:43:27.506 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+13:43:27.508 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.16]
+13:43:27.516 [main] INFO  org.apache.catalina.core.AprLifecycleListener - The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [E:\Java\jdk\jdk\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;E:\Java\jdk\jdk\bin;E:\Java\jdk\jdk\jre\bin;E:\maven\apache-maven-3.6.0\bin;C:\Program Files\TortoiseSVN\bin;C:\WINDOWS\System32\OpenSSH\;E:\SDK\android-sdk-windows\platform-tools;E:\SDK\android-sdk-windows\tools;C:\Users\Blue\AppData\Local\Microsoft\WindowsApps;;.]
+13:43:27.884 [main] INFO  org.apache.jasper.servlet.TldScanner - At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+13:43:27.895 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+13:43:28.521 [main] INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+13:43:28.587 [main] INFO  org.hibernate.Version - HHH000412: Hibernate Core {5.3.7.Final}
+13:43:28.590 [main] INFO  org.hibernate.cfg.Environment - HHH000206: hibernate.properties not found
+13:43:28.740 [main] INFO  org.hibernate.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+13:43:29.127 [main] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+13:43:31.074 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8888"]
+13:43:31.123 [main] INFO  com.blue.hospital.HospitalApp - Started HospitalApp in 8.741 seconds (JVM running for 11.684)
+13:43:39.999 [http-nio-8888-exec-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+13:43:40.032 [http-nio-8888-exec-1] INFO  org.apache.shiro.session.mgt.AbstractValidatingSessionManager - Enabling session validation scheduler...
+13:44:11.798 [Thread-19] INFO  org.apache.shiro.session.mgt.AbstractValidatingSessionManager - Disabled session validation scheduler.
+13:44:11.805 [Thread-19] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed

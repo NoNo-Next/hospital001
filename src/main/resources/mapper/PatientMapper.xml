@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blue.hospital.dao.PatientMapper">
+  <resultMap id="BaseResultMap" type="com.blue.hospital.entity.Patient">
+    <id column="patientId" jdbcType="INTEGER" property="patientid" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="birthday" jdbcType="VARCHAR" property="birthday" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="marrage" jdbcType="VARCHAR" property="marrage" />
+    <result column="birthPlace" jdbcType="VARCHAR" property="birthplace" />
+    <result column="nation" jdbcType="VARCHAR" property="nation" />
+    <result column="patientCard" jdbcType="VARCHAR" property="patientcard" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="telephone" jdbcType="VARCHAR" property="telephone" />
+    <result column="contactsName" jdbcType="VARCHAR" property="contactsname" />
+    <result column="contactsRelationship" jdbcType="VARCHAR" property="contactsrelationship" />
+    <result column="contactsNum" jdbcType="VARCHAR" property="contactsnum" />
+    <result column="isDelete" jdbcType="INTEGER" property="isdelete" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    patientId, name, sex, birthday, age, marrage, birthPlace, nation, patientCard, address, 
+    telephone, contactsName, contactsRelationship, contactsNum, isDelete
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from patient
+    where patientId = #{patientid,jdbcType=INTEGER}
+  </select>
+
+  <select id="getAllPatient" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"></include>
+    from  patient
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from patient
+    where patientId = #{patientid,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.blue.hospital.entity.Patient">
+    insert into patient (patientId, name, sex, 
+      birthday, age, marrage, 
+      birthPlace, nation, patientCard, 
+      address, telephone, contactsName, 
+      contactsRelationship, contactsNum, isDelete
+      )
+    values (#{patientid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
+      #{birthday,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, #{marrage,jdbcType=VARCHAR}, 
+      #{birthplace,jdbcType=VARCHAR}, #{nation,jdbcType=VARCHAR}, #{patientcard,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{telephone,jdbcType=VARCHAR}, #{contactsname,jdbcType=VARCHAR}, 
+      #{contactsrelationship,jdbcType=VARCHAR}, #{contactsnum,jdbcType=VARCHAR}, #{isdelete,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.blue.hospital.entity.Patient">
+    insert into patient
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="patientid != null">
+        patientId,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="marrage != null">
+        marrage,
+      </if>
+      <if test="birthplace != null">
+        birthPlace,
+      </if>
+      <if test="nation != null">
+        nation,
+      </if>
+      <if test="patientcard != null">
+        patientCard,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="telephone != null">
+        telephone,
+      </if>
+      <if test="contactsname != null">
+        contactsName,
+      </if>
+      <if test="contactsrelationship != null">
+        contactsRelationship,
+      </if>
+      <if test="contactsnum != null">
+        contactsNum,
+      </if>
+      <if test="isdelete != null">
+        isDelete,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="patientid != null">
+        #{patientid,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="marrage != null">
+        #{marrage,jdbcType=VARCHAR},
+      </if>
+      <if test="birthplace != null">
+        #{birthplace,jdbcType=VARCHAR},
+      </if>
+      <if test="nation != null">
+        #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="patientcard != null">
+        #{patientcard,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null">
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="contactsname != null">
+        #{contactsname,jdbcType=VARCHAR},
+      </if>
+      <if test="contactsrelationship != null">
+        #{contactsrelationship,jdbcType=VARCHAR},
+      </if>
+      <if test="contactsnum != null">
+        #{contactsnum,jdbcType=VARCHAR},
+      </if>
+      <if test="isdelete != null">
+        #{isdelete,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map">
+    update patient
+    <set>
+      <if test="record.patientid != null">
+        patientId = #{record.patientid,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sex != null">
+        sex = #{record.sex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.birthday != null">
+        birthday = #{record.birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="record.age != null">
+        age = #{record.age,jdbcType=INTEGER},
+      </if>
+      <if test="record.marrage != null">
+        marrage = #{record.marrage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.birthplace != null">
+        birthPlace = #{record.birthplace,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nation != null">
+        nation = #{record.nation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.patientcard != null">
+        patientCard = #{record.patientcard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null">
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.telephone != null">
+        telephone = #{record.telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contactsname != null">
+        contactsName = #{record.contactsname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contactsrelationship != null">
+        contactsRelationship = #{record.contactsrelationship,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contactsnum != null">
+        contactsNum = #{record.contactsnum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isdelete != null">
+        isDelete = #{record.isdelete,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update patient
+    set patientId = #{record.patientid,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      sex = #{record.sex,jdbcType=VARCHAR},
+      birthday = #{record.birthday,jdbcType=VARCHAR},
+      age = #{record.age,jdbcType=INTEGER},
+      marrage = #{record.marrage,jdbcType=VARCHAR},
+      birthPlace = #{record.birthplace,jdbcType=VARCHAR},
+      nation = #{record.nation,jdbcType=VARCHAR},
+      patientCard = #{record.patientcard,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      telephone = #{record.telephone,jdbcType=VARCHAR},
+      contactsName = #{record.contactsname,jdbcType=VARCHAR},
+      contactsRelationship = #{record.contactsrelationship,jdbcType=VARCHAR},
+      contactsNum = #{record.contactsnum,jdbcType=VARCHAR},
+      isDelete = #{record.isdelete,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.blue.hospital.entity.Patient">
+    update patient
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="marrage != null">
+        marrage = #{marrage,jdbcType=VARCHAR},
+      </if>
+      <if test="birthplace != null">
+        birthPlace = #{birthplace,jdbcType=VARCHAR},
+      </if>
+      <if test="nation != null">
+        nation = #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="patientcard != null">
+        patientCard = #{patientcard,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null">
+        telephone = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="contactsname != null">
+        contactsName = #{contactsname,jdbcType=VARCHAR},
+      </if>
+      <if test="contactsrelationship != null">
+        contactsRelationship = #{contactsrelationship,jdbcType=VARCHAR},
+      </if>
+      <if test="contactsnum != null">
+        contactsNum = #{contactsnum,jdbcType=VARCHAR},
+      </if>
+      <if test="isdelete != null">
+        isDelete = #{isdelete,jdbcType=INTEGER},
+      </if>
+    </set>
+    where patientId = #{patientid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.blue.hospital.entity.Patient">
+    update patient
+    set name = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      marrage = #{marrage,jdbcType=VARCHAR},
+      birthPlace = #{birthplace,jdbcType=VARCHAR},
+      nation = #{nation,jdbcType=VARCHAR},
+      patientCard = #{patientcard,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      telephone = #{telephone,jdbcType=VARCHAR},
+      contactsName = #{contactsname,jdbcType=VARCHAR},
+      contactsRelationship = #{contactsrelationship,jdbcType=VARCHAR},
+      contactsNum = #{contactsnum,jdbcType=VARCHAR},
+      isDelete = #{isdelete,jdbcType=INTEGER}
+    where patientId = #{patientid,jdbcType=INTEGER}
+  </update>
+</mapper>
